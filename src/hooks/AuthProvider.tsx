@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { auth } from "../lib/firebase/firebase";
 import { AuthContext } from "../context/AuthContextInstance";
-import type { AuthContextType, User } from "../context/AuthContextTypes"; 
+import type { AuthContextType, User } from "../types/AuthContextTypes";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -60,12 +60,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loginWithEmail,
     logout,
     enableGuestMode,
-    disableGuestMode
+    disableGuestMode,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

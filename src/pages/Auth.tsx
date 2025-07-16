@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { auth } from "../lib/firebase/firebase";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -73,12 +73,8 @@ export function Auth() {
             disabled={loading}
           />
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={loading ? 'loading' : ''}
-        >
-          {loading ? 'Вход...' : 'Войти'}
+        <button type="submit" disabled={loading} className={loading ? "loading" : ""}>
+          {loading ? "Вход..." : "Войти"}
         </button>
         <div className="auth-links">
           <Link to="/reset-password">Забыли пароль?</Link>

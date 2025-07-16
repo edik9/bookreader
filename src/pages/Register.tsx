@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth, db } from '../lib/firebase';
-import { FirebaseError } from 'firebase/app';
-import { Link, useNavigate } from 'react-router-dom';
-import { doc, setDoc } from 'firebase/firestore';
+import { useState, useEffect } from "react";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { auth, db } from "../lib/firebase/firebase";
+import { FirebaseError } from "firebase/app";
+import { Link, useNavigate } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
 
 export function Register() {
   // Состояния формы
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   // Состояния UI
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [emailValid, setEmailValid] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  
+
   const navigate = useNavigate();
 
   // Валидация email в реальном времени
@@ -40,30 +40,30 @@ export function Register() {
   // Обработчик регистрации
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Валидация
     if (!name || !email || !password || !confirmPassword) {
-      setError('Заполните все поля');
+      setError("Заполните все поля");
       return;
     }
-    
+
     if (!emailValid) {
-      setError('Введите корректный email');
+      setError("Введите корректный email");
       return;
     }
-    
+
     if (password !== confirmPassword) {
-      setError('Пароли не совпадают');
+      setError("Пароли не совпадают");
       return;
     }
-    
+
     if (password.length < 6) {
-      setError('Пароль должен содержать минимум 6 символов');
+      setError("Пароль должен содержать минимум 6 символов");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Создаем пользователя
@@ -71,10 +71,10 @@ export function Register() {
       const user = userCredential.user;
 
       // Сохраняем дополнительную информацию в Firestore
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, "users", user.uid), {
         displayName: name,
         email: user.email,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
 
       // Отправляем email для подтверждения
@@ -82,27 +82,27 @@ export function Register() {
 
       // Показываем сообщение об успехе
       setShowSuccess(true);
-      
+
       // Перенаправляем через 3 секунды
-      setTimeout(() => navigate('/library'), 3000);
+      setTimeout(() => navigate("/library"), 3000);
     } catch (err) {
       if (err instanceof FirebaseError) {
         switch (err.code) {
-          case 'auth/email-already-in-use':
-            setError('Этот email уже используется');
+          case "auth/email-already-in-use":
+            setError("Этот email уже используется");
             break;
-          case 'auth/invalid-email':
-            setError('Неверный формат email');
+          case "auth/invalid-email":
+            setError("Неверный формат email");
             break;
-          case 'auth/weak-password':
-            setError('Пароль слишком простой');
+          case "auth/weak-password":
+            setError("Пароль слишком простой");
             break;
           default:
-            setError('Произошла ошибка при регистрации');
+            setError("Произошла ошибка при регистрации");
             console.error(err);
         }
       } else {
-        setError('Неизвестная ошибка');
+        setError("Неизвестная ошибка");
         console.error(err);
       }
     } finally {
@@ -113,18 +113,23 @@ export function Register() {
   // Функция для определения цвета индикатора сложности пароля
   const getPasswordStrengthColor = () => {
     switch (passwordStrength) {
-      case 0: return 'red';
-      case 1: return 'orange';
-      case 2: return 'yellow';
-      case 3: return 'lightgreen';
-      default: return 'green';
+      case 0:
+        return "red";
+      case 1:
+        return "orange";
+      case 2:
+        return "yellow";
+      case 3:
+        return "lightgreen";
+      default:
+        return "green";
     }
   };
 
   return (
     <div className="auth-container">
       <h2>Создать аккаунт</h2>
-      
+
       {showSuccess ? (
         <div className="success-message">
           <h3>Регистрация успешна!</h3>
@@ -134,7 +139,7 @@ export function Register() {
       ) : (
         <>
           {error && <div className="error-message">{error}</div>}
-          
+
           <form onSubmit={handleRegister}>
             {/* Поле для имени */}
             <div className="form-group">
@@ -148,7 +153,7 @@ export function Register() {
                 placeholder="Как вас зовут?"
               />
             </div>
-            
+
             {/* Поле для email */}
             <div className="form-group">
               <label htmlFor="email">Email:</label>
@@ -159,13 +164,11 @@ export function Register() {
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
                 placeholder="example@mail.com"
-                className={email && !emailValid ? 'invalid' : ''}
+                className={email && !emailValid ? "invalid" : ""}
               />
-              {email && !emailValid && (
-                <span className="input-hint">Введите корректный email</span>
-              )}
+              {email && !emailValid && <span className="input-hint">Введите корректный email</span>}
             </div>
-            
+
             {/* Поле для пароля */}
             <div className="form-group">
               <label htmlFor="password">Пароль:</label>
@@ -181,17 +184,17 @@ export function Register() {
               {password && (
                 <div className="password-strength">
                   <span>Сложность пароля:</span>
-                  <div 
+                  <div
                     className="strength-meter"
                     style={{
                       width: `${passwordStrength * 20}%`,
-                      backgroundColor: getPasswordStrengthColor()
+                      backgroundColor: getPasswordStrengthColor(),
                     }}
                   ></div>
                 </div>
               )}
             </div>
-            
+
             {/* Поле для подтверждения пароля */}
             <div className="form-group">
               <label htmlFor="confirmPassword">Подтвердите пароль:</label>
@@ -207,16 +210,16 @@ export function Register() {
                 <span className="input-hint">Пароли не совпадают</span>
               )}
             </div>
-            
+
             <button
               type="submit"
               disabled={loading || !emailValid || password !== confirmPassword}
-              className={`btn ${loading ? 'loading' : ''}`}
+              className={`btn ${loading ? "loading" : ""}`}
             >
-              {loading ? 'Регистрируем...' : 'Зарегистрироваться'}
+              {loading ? "Регистрируем..." : "Зарегистрироваться"}
             </button>
           </form>
-          
+
           <div className="auth-links">
             Уже есть аккаунт? <Link to="/auth">Войти</Link>
           </div>
