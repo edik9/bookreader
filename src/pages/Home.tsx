@@ -2,15 +2,15 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export function Home() {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
 
   return (
     <div className="home-page">
       <h1>Вот вам книжная читалка, охаё они чан епта</h1>
       <div className="auth-options">
-        {user ?(
+        {user || isGuest ? (
           <Link to="/library" className="btn">
-            Перейти в мою библиотэку найкрайше митцу 
+            Перейти в мою библиотэку найкрайше митцу
           </Link>
         ) : (
           <>
@@ -24,5 +24,5 @@ export function Home() {
         )}
       </div>
     </div>
-  )
+  );
 }

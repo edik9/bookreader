@@ -1,12 +1,14 @@
-import {useAuth} from '../hooks/useAuth'
+import { useAuth } from "../hooks/useAuth";
 
-export function Library(){
-  const {user} = useAuth()
+export function Library() {
+  const { user, isGuest } = useAuth();
 
-  return(
+  return (
     <div className="library-page">
       <h1>Моя библыотэка</h1>
-      <p>добр бобр, {user?.email}!</p>
+      <p>
+        {user ? `добр бобр, {user?.email}!` : isGuest ? "Вы в гостевом режиме" : "доступ запрещён"}
+      </p>
     </div>
-  )
+  );
 }
