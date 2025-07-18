@@ -1,6 +1,6 @@
 // features/auth/LoginPage.tsx
-import AuthForm from './components/AuthForm';
-import GuestWarning from './components/GuestWarning';
+import { AuthForm } from './components/AuthForm';
+import { GuestWarning } from './components/GuestWarning';
 import styles from './LoginPage.module.scss'; 
 
 export const LoginPage = () => {
