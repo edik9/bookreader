@@ -1,4 +1,4 @@
-import AuthForm from './components/AuthForm';
+import { AuthForm } from './components/AuthForm';
 import styles from './RegisterPage.module.scss'; // если есть стили
 
 export const RegisterPage = () => {
