@@ -1,7 +1,7 @@
 // import { useState } from 'react'
 import { BrowserRouter} from "react-router-dom";
-import { AuthProvider } from "context/AuthContext";
-import { AppRouter } from "app/AppRouter";
+import { AuthProvider } from "@/context/AuthContext";
+import { AppRouter } from "@/app/AppRouter";
 import "./index.css";
 
 // import { Auth } from "./features/Auth";

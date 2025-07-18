@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth'
 import { Navigate } from 'react-router-dom'
-import { app } from '@/core/services/firebase'
+import { app } from '@core/services/firebase'
 
 interface AuthContextType {
   user: User | null;
