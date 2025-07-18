@@ -1,7 +1,9 @@
 // import { useState } from 'react'
-import { BrowserRouter, Routes} from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
+import { AuthProvider } from "context/AuthContext";
+import { AppRouter } from "app/AppRouter";
 import "./App.css";
-// import { Home } from "./features/Home";
+
 // import { Auth } from "./features/Auth";
 // import { Register } from "./features/Register";
 // import { AuthProvider } from "./hooks/AuthProvider";
@@ -11,13 +13,9 @@ import "./App.css";
 function App() {
   return (
       <BrowserRouter>
-        <Routes>
-          {/* <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/library" element={<Library />} />
-          <Route path="/guest-library" element={<GuestLibrary />} /> */}
-        </Routes>
+        <AuthProvider>
+          <AppRouter/>
+        </AuthProvider>
       </BrowserRouter>
   );
 }

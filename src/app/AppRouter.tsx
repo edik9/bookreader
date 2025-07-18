@@ -1,28 +1,57 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { MainLayout } from "./MainLayout";
-import { AuthPage, LibraryPage, ReaderPage, CollectionsPage, AnnotationPage } from "/features/";
+// src/app/AppRouter.tsx
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { MainLayout } from './MainLayout';
+import { ProtectedRoute } from '@/context/AuthContext';
+import {
+  AuthPage,
+  LibraryPage,
+  ReaderPage,
+  CollectionsPage,
+  AnnotationPage
+} from '@/features';
 
-<Routes>
-  {/* авторизация */}
-  <Route path="/auth" element={<AuthPage />} />
+export const AppRouter = () => {
+  return (
+    <Routes>
+      {/* Публичные маршруты */}
+      <Route path="/auth" element={<AuthPage />} />
 
-  {/* основные маршруты с layout */}
-  <Route element={<MainLayout />}>
-    {/* библиотека */}
-    <Route path="/library" element={<LibraryPage />} />
+      {/* Приватные маршруты с MainLayout */}
+      <Route element={<MainLayout />}>
+        <Route path="/library" element={
+          <ProtectedRoute>
+            <LibraryPage />
+          </ProtectedRoute>
+        } />
 
-    {/* читалка */}
-    <Route path="/reader/:bookId" element={<ReaderPage />} />
+        <Route path="/reader/:bookId" element={
+          <ProtectedRoute>
+            <ReaderPage />
+          </ProtectedRoute>
+        } />
 
-    {/* коллекции */}
-    <Route path="/collections" element={<CollectionsPage />} />
-    <Route path="/collections/:collectionId" element={<CollectionsPage />} />
+        <Route path="/collections" element={
+          <ProtectedRoute>
+            <CollectionsPage />
+          </ProtectedRoute>
+        } />
 
-    {/* аннотации */}
-    <Route path="/annotations/:bookId" element={<AnnotationPage />} />
+        <Route path="/collections/:collectionId" element={
+          <ProtectedRoute>
+            <CollectionsPage />
+          </ProtectedRoute>
+        } />
 
-    {/* перенаправление */}
-    <Route path="/" element={<Navigate to="/library" replace />} />
-    <Route path="*" element={<Navigate to="/library" replace />} />
-  </Route>
-</Routes>;
+        <Route path="/annotations/:bookId" element={
+          <ProtectedRoute>
+            <AnnotationPage />
+          </ProtectedRoute>
+        } />
+
+        {/* Перенаправления */}
+        <Route path="/" element={<Navigate to="/library" replace />} />
+        <Route path="*" element={<Navigate to="/library" replace />} />
+      </Route>
+    </Routes>
+  );
+};

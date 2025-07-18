@@ -1,18 +1,18 @@
-import { Outlet } from "react-router-dom";
-import { Header, Sidebar, SyncStatusBadge } from '@/shared/components'
-// import styles from './MainLayout.module.scss'
+import { Outlet } from 'react-router-dom';
+import { Header, Sidebar, SyncStatusBadge } from '@/shared/components';
+import styles from './MainLayout.module.css';
 
 export const MainLayout = () => {
   return (
-    <div>
+    <div className={styles.container}>
       <Header />
-      <div>
+      <div className={styles.content}>
         <Sidebar />
-        <main>
+        <main className={styles.main}>
           <Outlet />
-          <SyncStatusBadge />
+          <SyncStatusBadge className={styles.syncBadge} />
         </main>
       </div>
     </div>
-  )
-}
+  );
+};
