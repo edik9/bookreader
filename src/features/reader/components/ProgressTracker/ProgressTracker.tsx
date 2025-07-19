@@ -8,7 +8,7 @@ interface ProgressTrackerProps {
 }
 
 export const ProgressTracker: React.FC<ProgressTrackerProps> = ({ bookId }) => {
-  const { getDocument, updateDovument } = useFirestore()
+  const { getDocument, updateDocument } = useFirestore()
   const [progress, setProgress] = useState<number>(0)
   const [readingTime, setReadingTime] = useState<number>(0)
   const [currentChapter, setCurrentChapter] = useState<string>('')
@@ -17,7 +17,7 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({ bookId }) => {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const bookData = await getDocument(`library/${bookId}`)
+        const bookData = await getDocument('library', bookId)
         if (bookData?.progress) {
           setProgress(bookData.progress.percent || 0)
           setReadingTime(bookData.progress.totalReadingTimeMinutes || 0)
@@ -33,7 +33,7 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({ bookId }) => {
   const updateProgress = async (newProgress: number) => {
     setIsSyncing(true)
     try {
-      await updateDovument(`library/${bookId}`, {
+      await updateDocument('library', bookId, {
         'progress.percent': newProgress,
         'progress.lastRead': new Date(),
         'stats.tatalReadingTimeMinutes': readingTime + 5,

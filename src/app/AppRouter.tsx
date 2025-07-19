@@ -8,7 +8,7 @@ import {
   ReaderPage,
   CollectionsPage,
   AnnotationPage
-} from '@features';
+} from '@/features';
 
 export const AppRouter = () => {
   return (
