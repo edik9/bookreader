@@ -4,7 +4,8 @@ export interface BookMetadata {
   language: string;
   genres: string[];
   publisher?: string;
-  localizedTitles?: Record<string, string>;
+  localizedTitles?: Map<string, string>;
+  originalTitle?: string;
 }
 
 export interface BookStatus {

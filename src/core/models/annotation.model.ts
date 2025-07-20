@@ -15,10 +15,13 @@ export interface AnnotationContent {
 }
 
 export interface AnnotationHistoryItem {
+  id: string;
   updatedAt: Timestamp;
   updatedByDevice: string;
   contentDiff: {
     text?: string;
+    color?: string;
+    visibility?: AnnotationVisibility;
   };
 }
 
